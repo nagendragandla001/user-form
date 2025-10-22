@@ -1,9 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState<any[]>([]);
   const [filteredProducts, setFilteredProducts] = React.useState<any[]>([]);
   const [search, setSearch] = React.useState("");
+  // const router = useLocation();
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
@@ -15,6 +18,10 @@ export default function Products() {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+  };
+
+  const onProductClickHandler = (id: string) => {
+    navigate(`/products/${id}`);
   };
 
   useEffect(() => {
@@ -72,6 +79,7 @@ export default function Products() {
               transition: "transform 0.2s",
               cursor: "pointer",
             }}
+            onClick={() => onProductClickHandler(product.id)}
           >
             <img
               src={product.thumbnail}
