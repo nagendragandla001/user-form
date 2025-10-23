@@ -4,20 +4,26 @@ export const ROUTES = [
     component: () => import("../components/Home"),
   },
   {
-    path: "",
-    component: () => import("../components/Home"),
-  },
-  {
     path: "/user-registration",
     component: () => import("../components/User"),
   },
   {
     path: "/products",
-    component: () => import("../components/Products"),
-  },
-  {
-    path: "/products/:id",
-    component: () => import("../components/ProductDetails"),
+    component: () => import("../components/ProductsLayout"),
+    children: [
+      {
+        index: true,
+        component: () => import("../components/Products"),
+      },
+      {
+        path: ":id",
+        component: () => import("../components/ProductDetails"),
+      },
+      {
+        path: ":id/reviews",
+        component: () => import("../components/ProductReviews"),
+      },
+    ],
   },
   {
     path: "*",

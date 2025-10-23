@@ -24,6 +24,12 @@ const Header = () => {
         <Link to="/products" style={{ margin: "0 10px" }}>
           Products
         </Link>
+        <Link to="/products/1" style={{ margin: "0 10px" }}>
+          Product Details
+        </Link>
+        <Link to="/products/1/reviews" style={{ margin: "0 10px" }}>
+          Product Reviews
+        </Link>
       </div>
     </header>
   );
