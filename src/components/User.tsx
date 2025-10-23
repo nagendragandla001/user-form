@@ -1,6 +1,7 @@
 import { useState } from "react";
 import UserDetails from "./UserDetails";
 import UserRegistration from "./UserRegistration";
+import UserRegistrationUnControlled from "./UserRegistrationUncontrolled";
 
 const User = () => {
   const [userDetails, setUserDetails] = useState<any>({});
@@ -19,7 +20,8 @@ const User = () => {
         justifyContent: "center",
       }}
     >
-      <UserRegistration onRegister={onRegisterhandler} />
+      {/* <UserRegistration onRegister={onRegisterhandler} /> */}
+      <UserRegistrationUnControlled onRegister={onRegisterhandler} />
       <UserDetails user={userDetails} />
     </div>
   );

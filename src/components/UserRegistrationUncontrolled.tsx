@@ -1,55 +1,26 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface UserRegistrationProps {
   onRegister: (data: any) => void;
 }
 
-const UserRegistration = (props: UserRegistrationProps) => {
+const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
   const { onRegister } = props;
-  const [user, setUser] = useState({
-    userName: "Nagendra",
-    email: "",
-    message: "",
-  });
+
+  const userRef = useRef<HTMLFormElement>({
+    username: null,
+    email: null,
+    message: null,
+  } as any);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    onRegister(user);
+    console.log("userRef.current:", userRef);
   };
 
-  const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prev) => ({
-      ...prev,
-      userName: event.target.value,
-    }));
-  };
-
-  const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prev) => ({
-      ...prev,
-      email: event.target.value,
-    }));
-  };
-
-  const onMessageChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setUser((prev) => ({
-      ...prev,
-      message: event.target.value,
-    }));
-  };
-
-  const clearForm = () => {
-    setUser({
-      userName: "",
-      email: "",
-      message: "",
-    });
-    onRegister({
-      userName: "",
-      email: "",
-      message: "",
-    });
-  };
+  useEffect(() => {
+    console.log("UserRegistrationUnControlled Mounted", userRef.current);
+  }, []);
 
   return (
     <div
@@ -77,8 +48,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
             type="text"
             id="username"
             name="username"
-            value={user.userName}
-            onChange={onUserNameChange}
+            ref={userRef.current?.username}
             style={{
               width: "100%",
               padding: "8px",
@@ -96,8 +66,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
             type="email"
             id="email"
             name="email"
-            value={user.email}
-            onChange={onEmailChange}
+            ref={userRef.current?.email}
             style={{
               width: "100%",
               padding: "8px",
@@ -114,8 +83,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
           <textarea
             id="message"
             name="message"
-            value={user.message}
-            onChange={onMessageChange}
+            ref={userRef.current?.message}
             rows={4}
             style={{
               width: "100%",
@@ -139,7 +107,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
         >
           <button
             type="button"
-            onClick={clearForm}
+            // onClick={clearForm}
             style={{
               padding: "10px",
               cursor: "pointer",
@@ -171,4 +139,4 @@ const UserRegistration = (props: UserRegistrationProps) => {
   );
 };
 
-export default UserRegistration;
+export default UserRegistrationUnControlled;

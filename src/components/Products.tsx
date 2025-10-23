@@ -25,7 +25,6 @@ export default function Products() {
   };
 
   useEffect(() => {
-    console.log("Inital Load");
     fetchData();
   }, []);
 
