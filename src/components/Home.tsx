@@ -1,16 +1,17 @@
 import { useState } from "react";
 import StopWatch from "./StopWatch";
+import ParentComponent from "./ParentComponent";
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div>
-      <h2>Home Component</h2>
-      <button onClick={() => setIsOpen(!isOpen)}>
+      <ParentComponent />
+      {/* <button onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? "Stop" : "Start"}
-      </button>
-      {isOpen && <StopWatch />}
+      </button> */}
+      {/* {isOpen && <StopWatch />} */}
     </div>
   );
 };

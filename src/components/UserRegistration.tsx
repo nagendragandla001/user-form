@@ -7,8 +7,8 @@ interface UserRegistrationProps {
 const UserRegistration = (props: UserRegistrationProps) => {
   const { onRegister } = props;
   const [user, setUser] = useState({
-    userName: "Nagendra",
-    email: "",
+    userName: "Mahesh",
+    email: "mahesh@test.com",
     message: "",
   });
 
@@ -44,6 +44,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
       email: "",
       message: "",
     });
+
     onRegister({
       userName: "",
       email: "",
@@ -68,7 +69,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
         flexDirection: "column",
       }}
     >
-      <h2>User Registration Form</h2>
+      <h2>User Registration Controlled Form</h2>
 
       <form style={{ width: "100%" }} onSubmit={handleSubmit}>
         <div>

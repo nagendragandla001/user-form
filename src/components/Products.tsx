@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState<any[]>([]);
-  const [filteredProducts, setFilteredProducts] = React.useState<any[]>([]);
   const [search, setSearch] = React.useState("");
-  // const router = useLocation();
   const navigate = useNavigate();
+
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) =>
+      product.title.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [products, search]);
 
   const fetchData = async () => {
     try {
@@ -14,7 +18,6 @@ export default function Products() {
       const data = await response.json();
       console.log(data);
       setProducts(data.products);
-      setFilteredProducts(data.products);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -27,13 +30,6 @@ export default function Products() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  useEffect(() => {
-    const filtered = products.filter((product) =>
-      product.title.toLowerCase().includes(search.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-  }, [search]);
 
   return (
     <div

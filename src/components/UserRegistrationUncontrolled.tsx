@@ -7,7 +7,11 @@ interface UserRegistrationProps {
 const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
   const { onRegister } = props;
 
-  const userRef = useRef<HTMLFormElement>({
+  const userRef = useRef<{
+    username: HTMLInputElement | null;
+    email: HTMLInputElement | null;
+    message: HTMLTextAreaElement | null;
+  }>({
     username: null,
     email: null,
     message: null,
@@ -15,11 +19,35 @@ const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("userRef.current:", userRef);
+    console.log("userRef.current:", userRef.current);
+
+    const userData = {
+      userName: userRef.current.username?.value,
+      email: userRef.current.email?.value,
+      message: userRef.current.message?.value,
+    };
+
+    onRegister(userData);
+
+    console.log("Submitted Data:", userData);
   };
 
+  console.log("1. userRef.current on render:", userRef.current);
+  //
+
   useEffect(() => {
-    console.log("UserRegistrationUnControlled Mounted", userRef.current);
+    console.log("2. [useEffect] userRef.current on render:", userRef.current);
+    if (userRef.current.username) userRef.current.username.value = "Nagendra";
+    if (userRef.current.email)
+      userRef.current.email.value = "nagendra@example.com";
+    if (userRef.current.message)
+      userRef.current.message.value = "Hello, this is a test message.";
+
+    if (userRef.current.email) userRef.current.email.focus();
+
+    if (userRef.current.message) {
+      userRef.current.message.style.borderColor = "red";
+    }
   }, []);
 
   return (
@@ -39,7 +67,7 @@ const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
         flexDirection: "column",
       }}
     >
-      <h2>User Registration Form</h2>
+      <h2>User Registration Uncontrolled Form</h2>
 
       <form style={{ width: "100%" }} onSubmit={handleSubmit}>
         <div>
@@ -48,7 +76,7 @@ const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
             type="text"
             id="username"
             name="username"
-            ref={userRef.current?.username}
+            ref={(el: any) => (userRef.current!.username = el)}
             style={{
               width: "100%",
               padding: "8px",
@@ -66,7 +94,7 @@ const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
             type="email"
             id="email"
             name="email"
-            ref={userRef.current?.email}
+            ref={(el: any) => (userRef.current!.email = el)}
             style={{
               width: "100%",
               padding: "8px",
@@ -83,7 +111,7 @@ const UserRegistrationUnControlled = (props: UserRegistrationProps) => {
           <textarea
             id="message"
             name="message"
-            ref={userRef.current?.message}
+            ref={(el: any) => (userRef.current!.message = el)}
             rows={4}
             style={{
               width: "100%",
