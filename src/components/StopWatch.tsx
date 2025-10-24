@@ -1,35 +1,41 @@
 import { useEffect, useState } from "react";
 
 const StopWatch = () => {
-  const [seconds, setSeconds] = useState(0);
   const [milliSeconds, setMilliSeconds] = useState(0);
-
-  console.log("StopWatch Rendered");
+  const [seconds, setSeconds] = useState(0);
+  const [init, setInit] = useState(false);
 
   useEffect(() => {
+    console.log("StopWatch Mounted");
+    // ComponentDidMount equivalent
+    setInit(true);
+  }, []);
+
+  // ComponentDidUpdate equivalent
+  useEffect(() => {
+    if (milliSeconds >= 1000) {
+      setSeconds((prev) => prev + 1);
+      setMilliSeconds(0);
+    }
+  }, [milliSeconds]);
+
+  // ComponentWillUnmount equivalent
+  useEffect(() => {
     const timer = setInterval(() => {
-      if (milliSeconds >= 60000) {
-        setMilliSeconds(0);
-      }
       setMilliSeconds((prev) => prev + 100);
     }, 100);
 
-    // Cleanup interval on component unmount
     return () => {
       clearInterval(timer);
     };
-  }, [milliSeconds]);
-
-  useEffect(() => {
-    setSeconds(Math.floor(milliSeconds / 1000));
-  }, [milliSeconds]);
+  }, []);
 
   return (
     <div>
-      <h2>Stop Watch</h2>
-      <p>
-        Your time starts {seconds} : {milliSeconds}
-      </p>
+      <h2>
+        Stop Watch Component {seconds} : {milliSeconds}
+      </h2>
+      <div>{init ? "Initialized" : "Not Initialized"}</div>
     </div>
   );
 };
