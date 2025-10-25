@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.css";
 
 import Header from "./components/Header";
 import { lazy, Suspense } from "react";
@@ -19,6 +18,9 @@ function App() {
   return (
     <div>
       <Header />
+      <div className="text-red-500 text-center my-5 font-bold text-3xl">
+        <h1>Welcome to React Training App</h1>
+      </div>
       <Routes>
         {ROUTES.map((route) => {
           if (route.children) {

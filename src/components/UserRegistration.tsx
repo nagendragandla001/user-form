@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 interface UserRegistrationProps {
   onRegister: (data: any) => void;
@@ -17,12 +17,15 @@ const UserRegistration = (props: UserRegistrationProps) => {
     onRegister(user);
   };
 
-  const onUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUser((prev) => ({
-      ...prev,
-      userName: event.target.value,
-    }));
-  };
+  const onUserNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setUser((prev) => ({
+        ...prev,
+        userName: event.target.value,
+      }));
+    },
+    []
+  );
 
   const onEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({
@@ -53,25 +56,10 @@ const UserRegistration = (props: UserRegistrationProps) => {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: "400px",
-        width: "100%",
-        margin: "0 auto",
-        padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        fontFamily: "Arial, sans-serif",
-        minHeight: "50vh",
-        height: "auto",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <h2>User Registration Controlled Form</h2>
+    <div className="max-w-[400px] w-full mx-auto p-5 border border-gray-300 rounded-2xl shadow-lg">
+      <h2 className="text-indigo-500">User Registration Controlled Form</h2>
 
-      <form style={{ width: "100%" }} onSubmit={handleSubmit}>
+      <form className="w-full" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -80,15 +68,7 @@ const UserRegistration = (props: UserRegistrationProps) => {
             name="username"
             value={user.userName}
             onChange={onUserNameChange}
-            style={{
-              width: "100%",
-              padding: "8px",
-              margin: "8px 0",
-              boxSizing: "border-box",
-              borderRadius: "4px",
-              border: "1px solid #ccc",
-              marginBottom: "16px",
-            }}
+            className="w-full p-2 my-2 box-border border border-gray-300 rounded-md mb-4"
           />
         </div>
         <div>
@@ -173,3 +153,5 @@ const UserRegistration = (props: UserRegistrationProps) => {
 };
 
 export default UserRegistration;
+
+// hoisting

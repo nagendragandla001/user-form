@@ -1,35 +1,48 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const [products, setProducts] = React.useState<any[]>([]);
+  // const [filteredProducts, setFilteredProducts] = React.useState<any[]>([]);
   const [search, setSearch] = React.useState("");
   const navigate = useNavigate();
 
+  // Always returns the value that is memoized
   const filteredProducts = useMemo(() => {
     return products.filter((product) =>
       product.title.toLowerCase().includes(search.toLowerCase())
     );
   }, [products, search]);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(`https://dummyjson.com/products`);
       const data = await response.json();
       console.log(data);
       setProducts(data.products);
+      // setFilteredProducts(data.products);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, []);
 
-  const onProductClickHandler = (id: string) => {
-    navigate(`/products/${id}`);
-  };
+  const onProductClickHandler = useCallback(
+    (id: string) => {
+      navigate(`/products/${id}`);
+    },
+    [navigate]
+  );
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
+
+  // useEffect(() => {
+  //   const filtered = memoizedData.filter((product) =>
+  //     product.title.toLowerCase().includes(search.toLowerCase())
+  //   );
+  //   setFilteredProducts(filtered);
+  // }, [search]);
 
   return (
     <div
