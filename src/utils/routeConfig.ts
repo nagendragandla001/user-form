@@ -8,6 +8,10 @@ export const ROUTES = [
     component: () => import("../components/User"),
   },
   {
+    path: "/cart",
+    component: () => import("../components/Cart"),
+  },
+  {
     path: "/products",
     component: () => import("../components/ProductsLayout"),
     children: [

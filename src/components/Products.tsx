@@ -1,11 +1,14 @@
 import React, { useCallback, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { useProducts } from "./ProductProvider";
+import Product from "./Product";
 
 export default function Products() {
   const [products, setProducts] = React.useState<any[]>([]);
   // const [filteredProducts, setFilteredProducts] = React.useState<any[]>([]);
   const [search, setSearch] = React.useState("");
   const navigate = useNavigate();
+  const { addProduct, products: cartProducts } = useProducts();
 
   // Always returns the value that is memoized
   const filteredProducts = useMemo(() => {
@@ -33,6 +36,11 @@ export default function Products() {
     [navigate]
   );
 
+  const onAddToCartHandler = (product: any, e: React.MouseEvent) => {
+    e.stopPropagation();
+    addProduct(product);
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -45,60 +53,17 @@ export default function Products() {
   // }, [search]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: "20px",
-      }}
-    >
-      <h2>Products List - {filteredProducts.length}</h2>
+    <div className="p-4 flex flex-col gap-1">
       <input
         type="text"
         placeholder="Search products..."
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          borderRadius: "4px",
-          border: "1px solid #483232ff",
-          width: "100%",
-          maxWidth: "400px",
-        }}
+        className="mb-4 p-2 border border-gray-300 rounded w-full"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-          gap: "20px",
-        }}
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.map((product) => (
-          <div
-            key={product.id}
-            style={{
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "10px",
-              textAlign: "center",
-              boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-              backgroundColor: "#fff",
-              transition: "transform 0.2s",
-              cursor: "pointer",
-            }}
-            onClick={() => onProductClickHandler(product.id)}
-          >
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              style={{ width: "100%", height: "150px", objectFit: "cover" }}
-            />
-            <h3>{product.title}</h3>
-            <p>${product.price}</p>
-
-            <button>Add to Cart</button>
-          </div>
+          <Product key={product.id} product={product} />
         ))}
       </div>
     </div>
